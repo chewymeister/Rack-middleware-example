@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Forcefield::Middleware do 
   let(:death_star) { lambda { |env| [200,{},[]]} }
-  let(:middleware) { Forcefield::Middlware.new(death_star) }
+  let(:middleware) { Forcefield::Middleware.new(death_star) }
   let(:mock_request) { Rack::MockRequest.new(middleware) }
 
   context "When incoming request has no Authorization header" do
