@@ -5,7 +5,7 @@ module Forcefield
     end
 
     def call env
-      if env["HTTP_AUTHORIZATION"] 
+      if env["HTTP_AUTHORIZATION"]
         @app.call env
       else
         [401, {}, ["Unauthorized! You are part of the Rebel Alliance and are a Traitor!"]]

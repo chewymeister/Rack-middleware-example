@@ -51,7 +51,7 @@ describe Forcefield::Middleware do
       it("returns a 401") { expect(resp.status).to eq 401 }
 
       it "notifies the client that they have not signed the request" do
-        expect(resp.body).to include "Unauthorized. Pst! You forgot to sing the request."
+        expect(resp.body).to include "Unauthorized. Pst! You forgot to sign the request."
       end
     end
 
