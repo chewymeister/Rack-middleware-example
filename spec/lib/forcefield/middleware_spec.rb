@@ -68,6 +68,24 @@ describe Forcefield::Middleware do
       end
     end
   end
+
+  context 'client makes request iwth sufficient, but incorrect OAuth header' do
+    let(:rest_uri) { "http://api.death_star.com" } 
+    let(:incoreect_secret) { "!!badsecret!!" }
+    let(:bad_consumer_credentials) {{ :consumer_key => ImperialClient::DUMMY_KEY, :consumer_secret => incorrect_secret}}
+    let(:invalid_auth_header) {{ "HTTP_AUTHORIZATION" => SimpleOAuth::Header.new :get, test_uri, {}, badconsumer_credentials).to_s }}
+    let(:resp) { mock_request.get test_uri, invalid_auth_header }
+    let(:client_with_good_credentials) { ImperialClient.new ImperialClient::DUMMY_KEY, ImperialClient::DUMMY_SECRET }
+    before { ImperialClient.stub(:find_by_consumer_key).and_return(client_with_good_credentials) }
+
+    it 'returns a status of 401' do
+      expect(resp.status).to eq 401
+    end
+
+    it 'notified the client that they have failed at thwarting the Imperials' do
+      expect(resp.body.client).to eq "Unauthorized! You are part of the Rebel Alliance and are a Traitor!"
+    end
+  end
 end
 
 
